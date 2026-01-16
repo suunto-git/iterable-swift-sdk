@@ -43,7 +43,9 @@ class KeychainWrapper {
         // Search
         var result: AnyObject?
         let status = SecItemCopyMatching(keychainQueryDictionary as CFDictionary, &result)
-        
+        if status != errSecSuccess {
+            print("🔑 [KeychainDebug] 读取 Key: \(key) 失败, OSStatus: \(status). (提示: -25300表示没数据, -34018通常是签名/AccessGroup权限问题)")
+        }
         return status == noErr ? result as? Data : nil
     }
     

@@ -17,9 +17,12 @@ class AuthManager: IterableAuthManagerProtocol {
         self.localStorage = localStorage
         self.dateProvider = dateProvider
         self.expirationRefreshPeriod = expirationRefreshPeriod
-        
+        print("🛡️ [AuthDebug] AuthManager Init - Email: \(String(describing: localStorage.email)), UserId: \(String(describing: localStorage.userId)), Delegate: \(delegate != nil)")
         if self.delegate != nil && (localStorage.email != nil || localStorage.userId != nil) {
-            retrieveAuthToken()
+            print("🛡️ [AuthDebug] 满足条件，准备调用 retrieveAuthToken")
+            DispatchQueue.main.async { [weak self] in
+                    self?.retrieveAuthToken()
+                }
         }
     }
     
